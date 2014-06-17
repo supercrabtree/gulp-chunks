@@ -2,19 +2,20 @@
 
 /** Normal npm requires
 ------------------------------------------------------------------------------*/
-var gulp = require('gulp');
+var gulp = require('gulp')
+  , quietTinyLiveReload = require('tiny-lr-quiet');
 
 
 /** Chunk imports
 ------------------------------------------------------------------------------*/
 var js = require('./chunks/js')
-  , styles = require('./chunks/styles')
-  , clean = require('./chunks/clean');
+  , clean = require('./chunks/clean')
+  , styles = require('./chunks/styles');
 
 
 /** Globals (used inside the chunks)
 ------------------------------------------------------------------------------*/
-GLOBAL.lr = require('tiny-lr-quiet')();
+GLOBAL.lr = quietTinyLiveReload();
 
 
 /** Chunks
@@ -24,6 +25,13 @@ gulp.task('cleanTmp', clean.tmp);
 gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
 gulp.task('clientjs', ['gulpfile'], js.client.serve);
 gulp.task('serverjs', ['gulpfile'], js.server.serve);
+gulp.task('startNode', [
+  'gulpfile',
+  'cleanTmp',
+  'stylus',
+  'clientjs',
+  'serverjs'
+], js.server.serve);
 
 
 /** Gulp tasks
