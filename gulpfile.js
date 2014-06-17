@@ -4,19 +4,25 @@
 ------------------------------------------------------------------------------*/
 var gulp = require('gulp');
 
-/** gulp chunk imports
+
+/** Chunk imports
 ------------------------------------------------------------------------------*/
-var styles = require('./chunks/styles')
+var js = require('./chunks/js')
+  , styles = require('./chunks/styles')
   , clean = require('./chunks/clean');
+
 
 /** globals (used inside the chunks)
 ------------------------------------------------------------------------------*/
 GLOBAL.lr = require('tiny-lr-quiet')();
 
+
 /** define the chunk tasks
 ------------------------------------------------------------------------------*/
 gulp.task('cleanTmp', clean.tmp);
 gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
+gulp.task('clientjs', js.client.serve);
+
 
 /** define the gulp tasks
 ------------------------------------------------------------------------------*/
