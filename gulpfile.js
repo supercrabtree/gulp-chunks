@@ -19,10 +19,11 @@ GLOBAL.lr = require('tiny-lr-quiet')();
 
 /** Chunks
 ------------------------------------------------------------------------------*/
+gulp.task('gulpfile', js.gulpfile.serve);
 gulp.task('cleanTmp', clean.tmp);
 gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
-gulp.task('clientjs', js.client.serve);
-gulp.task('serverjs', js.server.serve);
+gulp.task('clientjs', ['gulpfile'], js.client.serve);
+gulp.task('serverjs', ['gulpfile'], js.server.serve);
 
 
 /** Gulp tasks

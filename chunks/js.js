@@ -8,11 +8,31 @@ var gulp = require('gulp')
   , stylish = require('jshint-stylish')
   , plumber = require('gulp-plumber');
 
+
 ////////////////////////////////////////////////////////////////////////////////
 /// TODO                                                                      //
 /// 1. add jshint options in here, mash them together using lodash for        //
 ///    different options depending on browser/node and serve/build            //
 ////////////////////////////////////////////////////////////////////////////////
+
+
+/** Gulpfile
+------------------------------------------------------------------------------*/
+function gulpfileServe() {
+  return gulp.src('gulpfile.js')
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'))
+    .on('error', err);
+}
+
+function gulpfileBuild() {
+  return gulp.src('gulpfile.js')
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'))
+    .on('error', errBuild);
+}
 
 
 /** Client
@@ -35,6 +55,9 @@ function clientBuild() {
     .pipe(gulp.dest('dist/public/scripts'));
 }
 
+
+/** Node
+------------------------------------------------------------------------------*/
 function serverServe() {
   return gulp.src(['server/**/*.js', 'server.js'])
     .pipe(jshint('.jshintrc'))
@@ -51,10 +74,6 @@ function serverBuild() {
     .on('error', errBuild)
     .pipe(gulp.dest('dist'));
 }
-
-
-/** Sass
-------------------------------------------------------------------------------*/
 
 
 /** Generic
@@ -81,5 +100,9 @@ module.exports = {
   server: {
     serve: serverServe,
     build: serverBuild
+  },
+  gulpfile: {
+    serve: gulpfileServe,
+    build: gulpfileBuild
   }
 };
