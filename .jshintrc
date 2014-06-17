@@ -1,0 +1,35 @@
+{
+  "node": true,
+  "browser": false,
+  "devel": true,
+  "esnext": true,
+
+  "bitwise": false,
+  "camelcase": true,
+  "curly": false,
+  "eqeqeq": true,
+  "expr": true,
+  "freeze": true,
+  "immed": true,
+  "indent": 2,
+  "latedef": "nofunc",
+  "laxcomma": true,
+  "globalstrict": true,
+  "newcap": true,
+  "noarg": true,
+  "nonbsp": true,
+  "nonew": true,
+  "quotmark": "single",
+  "regexp": true,
+  "undef": true,
+  "unused": false,
+  "strict": true,
+  "trailing": true,
+  "smarttabs": true,
+  "white": true,
+  "noempty": false,
+  "globals": {
+    "lr": true
+  }
+}
+
