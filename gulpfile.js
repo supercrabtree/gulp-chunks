@@ -18,12 +18,12 @@ var js = require('./chunks/js')
 
 /** Chunks
 ------------------------------------------------------------------------------*/
-gulp.task('gulpfile', js.gulpfile.serve);
+gulp.task('gulp', js.gulp.serve);
 gulp.task('cleanTmp', clean.tmp);
 gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
-gulp.task('clientjs', ['gulpfile'], js.client.serve);
-gulp.task('serverjs', ['gulpfile'], js.server.serve);
-gulp.task('startNode', ['gulpfile', 'cleanTmp', 'stylus', 'clientjs', 'serverjs'], nodeServer.start);
+gulp.task('clientjs', ['gulp'], js.client.serve);
+gulp.task('serverjs', ['gulp'], js.server.serve);
+gulp.task('startNode', ['gulp', 'cleanTmp', 'stylus', 'clientjs', 'serverjs'], nodeServer.start);
 
 
 /** Gulp tasks
@@ -42,5 +42,5 @@ gulp.task('watch', ['stylus', 'serverjs', 'clientjs'], function () {
   gulp.watch('app/scripts/**/*.js', ['clientjs']);
   gulp.watch(['server/**/*.js', 'server.js'], ['serverjs']);
 
-  gulp.watch('gulpfile.js', js.gulpfile.changed);
+  gulp.watch(['gulpfile.js', 'chunks/**/*'], js.gulp.changed);
 });

@@ -18,23 +18,23 @@ var gulp = require('gulp')
 
 /** Gulpfile
 ------------------------------------------------------------------------------*/
-function gulpfileServe() {
-  return gulp.src('gulpfile.js')
+function gulpServe() {
+  return gulp.src(['gulpfile.js', 'chunks/**/*'])
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
     .on('error', err);
 }
 
-function gulpfileBuild() {
-  return gulp.src('gulpfile.js')
+function gulpBuild() {
+  return gulp.src(['gulpfile.js', 'chunks/**/*'])
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
     .on('error', errBuild);
 }
 
-function gulpfileChanged() {
+function gulpChanged() {
   gutil.beep();
   console.log(gutil.colors.red('\n------------------------\nRestart the Gulp process\n------------------------'));
   process.exit(1);
@@ -66,10 +66,10 @@ function clientBuild() {
 ------------------------------------------------------------------------------*/
 function serverServe() {
   return gulp.src(['server/**/*.js', 'server.js'])
-    .pipe(jshint('.jshintrc'))
+    .pipe(jshint('./server/.jshintrc'))
     .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
-    .on('error', errBuild);
+    .on('error', err);
 }
 
 function serverBuild() {
@@ -107,9 +107,9 @@ module.exports = {
     serve: serverServe,
     build: serverBuild
   },
-  gulpfile: {
-    serve: gulpfileServe,
-    build: gulpfileBuild,
-    changed: gulpfileChanged
+  gulp: {
+    serve: gulpServe,
+    build: gulpBuild,
+    changed: gulpChanged
   }
 };
