@@ -3,7 +3,8 @@
 /** Normal npm requires
 ------------------------------------------------------------------------------*/
 var gulp = require('gulp')
-  , quietTinyLiveReload = require('tiny-lr-quiet');
+  , gutil = require('gulp-util');
+
 
 
 /** Chunk imports
@@ -11,12 +12,8 @@ var gulp = require('gulp')
 var js = require('./chunks/js')
   , clean = require('./chunks/clean')
   , nodeServer = require('./chunks/node-server')
-  , styles = require('./chunks/styles');
-
-
-/** Globals (used inside the chunks)
-------------------------------------------------------------------------------*/
-GLOBAL.lr = quietTinyLiveReload();
+  , styles = require('./chunks/styles')
+  , reloader = require('./chunks/reloader');
 
 
 /** Chunks
@@ -31,4 +28,19 @@ gulp.task('startNode', ['gulpfile', 'cleanTmp', 'stylus', 'clientjs', 'serverjs'
 
 /** Gulp tasks
 ------------------------------------------------------------------------------*/
-gulp.task('default', ['stylus', 'clientjs', 'serverjs', 'startNode']);
+gulp.task('default', ['stylus', 'clientjs', 'serverjs', 'startNode', 'watch']);
+
+gulp.task('watch', ['stylus', 'serverjs', 'clientjs'], function () {
+
+  gulp.watch([
+    'app/views/**/*.html',
+    'app/scripts/**/*.js',
+    'app/images/**/*.*'
+  ], reloader.reload);
+
+  gulp.watch('app/styles/**/*.styl', ['stylus']);
+  gulp.watch('app/scripts/**/*.js', ['clientjs']);
+  gulp.watch(['server/**/*.js', 'server.js'], ['serverjs']);
+
+  gulp.watch('gulpfile.js', js.gulpfile.changed);
+});

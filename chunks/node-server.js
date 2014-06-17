@@ -4,6 +4,7 @@ var nodemon = require('nodemon')
   , http = require('http')
   , gutil = require('gulp-util');
 
+var reload = require('./reloader').reload;
 
 /** Constants
 ------------------------------------------------------------------------------*/
@@ -66,16 +67,6 @@ function checkIfReady(callback, params) {
   }).on('error', function () {
     waitForNode(callback, params);
   });
-}
-
-function reload(file) {
-  var log = '[' + gutil.colors.blue('LiveReload') + ']';
-  if (file) {
-    log += ' ' + file.path;
-  }
-  console.log(log);
-  file = file || {path: 'app/scripts/app.js'};
-  lr.changed({body: {files: file.path}});
 }
 
 

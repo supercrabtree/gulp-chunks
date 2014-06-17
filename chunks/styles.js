@@ -7,6 +7,8 @@ var gulp = require('gulp')
   , gulpLR = require('gulp-livereload')
   , prefix = require('gulp-autoprefixer');
 
+var lr = require('./reloader').lr;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TODO                                                                      //

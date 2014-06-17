@@ -34,6 +34,12 @@ function gulpfileBuild() {
     .on('error', errBuild);
 }
 
+function gulpfileChanged() {
+  gutil.beep();
+  console.log(gutil.colors.red('\n------------------------\nRestart the Gulp process\n------------------------'));
+  process.exit(1);
+}
+
 
 /** Client
 ------------------------------------------------------------------------------*/
@@ -103,6 +109,7 @@ module.exports = {
   },
   gulpfile: {
     serve: gulpfileServe,
-    build: gulpfileBuild
+    build: gulpfileBuild,
+    changed: gulpfileChanged
   }
 };
