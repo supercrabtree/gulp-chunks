@@ -10,6 +10,7 @@ var gulp = require('gulp')
 ------------------------------------------------------------------------------*/
 var js = require('./chunks/js')
   , clean = require('./chunks/clean')
+  , nodeServer = require('./chunks/node-server')
   , styles = require('./chunks/styles');
 
 
@@ -25,15 +26,9 @@ gulp.task('cleanTmp', clean.tmp);
 gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
 gulp.task('clientjs', ['gulpfile'], js.client.serve);
 gulp.task('serverjs', ['gulpfile'], js.server.serve);
-gulp.task('startNode', [
-  'gulpfile',
-  'cleanTmp',
-  'stylus',
-  'clientjs',
-  'serverjs'
-], js.server.serve);
+gulp.task('startNode', ['gulpfile', 'cleanTmp', 'stylus', 'clientjs', 'serverjs'], nodeServer.start);
 
 
 /** Gulp tasks
 ------------------------------------------------------------------------------*/
-gulp.task('default', ['stylus', 'clientjs', 'serverjs']);
+gulp.task('default', ['stylus', 'clientjs', 'serverjs', 'startNode']);
