@@ -12,18 +12,19 @@ var js = require('./chunks/js')
   , clean = require('./chunks/clean');
 
 
-/** globals (used inside the chunks)
+/** Globals (used inside the chunks)
 ------------------------------------------------------------------------------*/
 GLOBAL.lr = require('tiny-lr-quiet')();
 
 
-/** define the chunk tasks
+/** Chunks
 ------------------------------------------------------------------------------*/
 gulp.task('cleanTmp', clean.tmp);
 gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
 gulp.task('clientjs', js.client.serve);
+gulp.task('serverjs', js.server.serve);
 
 
-/** define the gulp tasks
+/** Gulp tasks
 ------------------------------------------------------------------------------*/
-gulp.task('default', ['stylus']);
+gulp.task('default', ['stylus', 'clientjs', 'serverjs']);

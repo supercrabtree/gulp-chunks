@@ -5,6 +5,7 @@ var gulp = require('gulp')
   , ngmin = require('gulp-ngmin')
   , jshint = require('gulp-jshint')
   , gulpLR = require('gulp-livereload')
+  , stylish = require('jshint-stylish')
   , plumber = require('gulp-plumber');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -13,12 +14,13 @@ var gulp = require('gulp')
 ///    different options depending on browser/node and serve/build            //
 ////////////////////////////////////////////////////////////////////////////////
 
+
 /** Client
 ------------------------------------------------------------------------------*/
 function clientServe() {
   return gulp.src('app/scripts/**/*.js')
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
     .on('error', err);
 }
@@ -26,11 +28,28 @@ function clientServe() {
 function clientBuild() {
   return gulp.src('app/scripts/**/*.js')
     .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter(stylish))
     .pipe(jshint.reporter('fail'))
     .on('error', errBuild)
     .pipe(ngmin())
     .pipe(gulp.dest('dist/public/scripts'));
+}
+
+function serverServe() {
+  return gulp.src(['server/**/*.js', 'server.js'])
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'))
+    .on('error', errBuild);
+}
+
+function serverBuild() {
+  return gulp.src(['server/**/*.js', 'server.js'], {base: './'})
+    .pipe(jshint('./server/.jshintrc'))
+    .pipe(jshint.reporter(stylish))
+    .pipe(jshint.reporter('fail'))
+    .on('error', errBuild)
+    .pipe(gulp.dest('dist'));
 }
 
 
@@ -58,5 +77,9 @@ module.exports = {
   client: {
     serve: clientServe,
     build: clientBuild
+  },
+  server: {
+    serve: serverServe,
+    build: serverBuild
   }
 };
