@@ -4,10 +4,9 @@ var gulp = require('gulp')
   , gutil = require('gulp-util')
   , stylus = require('gulp-stylus')
   , plumber = require('gulp-plumber')
-  , gulpLR = require('gulp-livereload')
-  , prefix = require('gulp-autoprefixer');
-
-var lr = require('./reloader').lr;
+  , gulpLr = require('gulp-livereload')
+  , prefix = require('gulp-autoprefixer')
+  , reloader = require('./reloader');
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,9 +25,9 @@ function stylusServe() {
     .pipe(prefix('last 2 versions'))
     .pipe(gulp.dest('.tmp/styles'))
     .on('error', err)
-    .pipe(gulpLR(lr))
+    .pipe(gulpLr(reloader.lr))
     .on('end', function () {
-      console.log('[' + gutil.colors.blue('LiveReload') + '] app/styles/main.styl');
+      console.log('[' + gutil.colors.blue('LiveReload') + '] injecting new styles');
     });
 }
 

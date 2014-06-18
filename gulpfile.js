@@ -15,6 +15,8 @@ var js = require('./chunks/js')
   , styles = require('./chunks/styles')
   , reloader = require('./chunks/reloader');
 
+reloader.init();
+
 
 /** Chunks
 ------------------------------------------------------------------------------*/

@@ -4,8 +4,12 @@ var gutil = require('gulp-util')
   , quietTinyLiveReload = require('tiny-lr-quiet');
 
 var lr = quietTinyLiveReload();
-function reload(file) {
 
+function init() {
+  lr.listen(35729);
+}
+
+function reload(file) {
   console.log([
     '[', gutil.colors.blue('LiveReload'), '] ',
     file && file.path
@@ -18,6 +22,7 @@ function reload(file) {
 /** Exports
 ------------------------------------------------------------------------------*/
 module.exports = {
+  init: init,
   reload: reload,
   lr: lr
 };
