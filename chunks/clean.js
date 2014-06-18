@@ -5,11 +5,20 @@ var gulp = require('gulp')
   , rimraf = require('gulp-rimraf');
 
 
-/** Tmp
+/** Clean functions
 ------------------------------------------------------------------------------*/
 function cleanTmp() {
   return gulp.src('.tmp/**/*', {read: false})
     .pipe(rimraf());
+}
+
+function cleanDist() {
+  return gulp.src([
+    'dist/*',
+    '!dist/.git',
+    '!dist/.gitignore',
+    '!dist/node_modules/**/*.*'
+  ], {read: false}).pipe(rimraf());
 }
 
 

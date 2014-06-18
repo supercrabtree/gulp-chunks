@@ -32,7 +32,13 @@ function stylusServe() {
 }
 
 function stylusBuild() {
-
+  return gulp.src('app/styles/main.styl')
+    .pipe(plumber())
+    .pipe(stylus())
+    .on('error', stylusErr)
+    .pipe(prefix('last 2 versions'))
+    .pipe(gulp.dest('dist/public/styles'))
+    .on('error', errBuild);
 }
 
 function stylusErr(err) {
@@ -63,6 +69,11 @@ function err() {
   this.emit('end');
 }
 
+function errBuild() {
+  gutil.beep();
+  console.log(gutil.colors.red('✖ Build Failed'));
+  process.exit(1);
+}
 
 /** Exports
 ------------------------------------------------------------------------------*/

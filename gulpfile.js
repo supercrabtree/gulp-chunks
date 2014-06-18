@@ -20,6 +20,8 @@ var js = require('./chunks/js')
   , open = require('./chunks/open') // jshint ignore:line
   , copy = require('./chunks/copy')
   , clean = require('./chunks/clean')
+  , build = require('./chunks/build')
+  , heroku = require('./chunks/heroku')
   , styles = require('./chunks/styles')
   , reloader = require('./chunks/reloader')
   , nodeServer = require('./chunks/node-server');
@@ -37,12 +39,18 @@ gulp.task('serverjs', ['gulp'], js.server.serve);
 gulp.task('startNode', ['gulp', 'stylus', 'clientjs', 'serverjs'], nodeServer.start);
 gulp.task('openProject', ['startNode'], open.project);
 
-gulp.task('copy:views', copy.views);
-gulp.task('copy:styles', copy.styles);
-gulp.task('copy:images', copy.images);
-gulp.task('copy:favicon', copy.favicon);
-gulp.task('copy:heroku', copy.heroku);
-gulp.task('copy:bowerComponents', copy.bowerComponents);
+gulp.task('clean:dist', clean.dist);
+gulp.task('gulp:build', js.gulp.build);
+gulp.task('stylus:build', ['clean:dist'], styles.stylus.build);
+gulp.task('clientjs:build', ['clean:dist', 'gulp:build'], js.client.build);
+gulp.task('serverjs:build', ['clean:dist', 'gulp:build'], js.server.build);
+gulp.task('copy:views', ['clean:dist'], copy.views);
+gulp.task('copy:styles', ['clean:dist'], copy.styles);
+gulp.task('copy:images', ['clean:dist'], copy.images);
+gulp.task('copy:favicon', ['clean:dist'], copy.favicon);
+gulp.task('copy:heroku', ['clean:dist'], copy.heroku);
+gulp.task('copy:bowerComponents', ['clean:dist'], copy.bowerComponents);
+
 
 /** Gulp serve/watch/reload
 ------------------------------------------------------------------------------*/
@@ -67,7 +75,12 @@ gulp.task('watch', function () {
 
 
 /** Gulp build
+ ** build core is used by deploy also, that's why build and buildCore
 ------------------------------------------------------------------------------*/
+gulp.task('buildCore', ['gulp:build', 'clean:dist', 'serverjs:build', 'stylus:build', 'clientjs:build', 'copy:bowerComponents', 'copy:heroku', 'copy:favicon', 'copy:images', 'copy:styles', 'copy:views']);
+gulp.task('build', ['buildCore'], build.run);
+
 
 /** Gulp deploy
 ------------------------------------------------------------------------------*/
+gulp.task('deploy', ['buildCore'], heroku.deploy);
