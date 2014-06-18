@@ -18,6 +18,7 @@ GLOBAL.LIVERELOAD_PORT = 35729;
 ------------------------------------------------------------------------------*/
 var js = require('./chunks/js')
   , open = require('./chunks/open') // jshint ignore:line
+  , copy = require('./chunks/copy')
   , clean = require('./chunks/clean')
   , styles = require('./chunks/styles')
   , reloader = require('./chunks/reloader')
@@ -29,19 +30,25 @@ reloader.init();
 /** Chunks
 ------------------------------------------------------------------------------*/
 gulp.task('gulp', js.gulp.serve);
-gulp.task('cleanTmp', clean.tmp);
-gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
+gulp.task('clean:tmp', clean.tmp);
+gulp.task('stylus', ['clean:tmp'], styles.stylus.serve);
 gulp.task('clientjs', ['gulp'], js.client.serve);
 gulp.task('serverjs', ['gulp'], js.server.serve);
-gulp.task('startNode', ['gulp', 'cleanTmp', 'stylus', 'clientjs', 'serverjs'], nodeServer.start);
+gulp.task('startNode', ['gulp', 'stylus', 'clientjs', 'serverjs'], nodeServer.start);
 gulp.task('openProject', ['startNode'], open.project);
 
+gulp.task('copy:views', copy.views);
+gulp.task('copy:styles', copy.styles);
+gulp.task('copy:images', copy.images);
+gulp.task('copy:favicon', copy.favicon);
+gulp.task('copy:heroku', copy.heroku);
+gulp.task('copy:bowerComponents', copy.bowerComponents);
 
-/** Gulp tasks
+/** Gulp serve/watch/reload
 ------------------------------------------------------------------------------*/
 gulp.task('default', ['serve']);
 gulp.task('go', ['serve', 'openProject']);
-gulp.task('serve', ['stylus', 'clientjs', 'serverjs', 'startNode', 'watch']);
+gulp.task('serve', ['clean:tmp', 'stylus', 'clientjs', 'serverjs', 'startNode', 'watch']);
 
 gulp.task('watch', function () {
 
@@ -57,3 +64,10 @@ gulp.task('watch', function () {
 
   gulp.watch(['gulpfile.js', 'chunks/**/*'], js.gulp.changed);
 });
+
+
+/** Gulp build
+------------------------------------------------------------------------------*/
+
+/** Gulp deploy
+------------------------------------------------------------------------------*/
