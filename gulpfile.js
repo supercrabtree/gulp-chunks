@@ -17,10 +17,11 @@ GLOBAL.LIVERELOAD_PORT = 35729;
 /** Chunk imports
 ------------------------------------------------------------------------------*/
 var js = require('./chunks/js')
+  , open = require('./chunks/open') // jshint ignore:line
   , clean = require('./chunks/clean')
-  , nodeServer = require('./chunks/node-server')
   , styles = require('./chunks/styles')
-  , reloader = require('./chunks/reloader');
+  , reloader = require('./chunks/reloader')
+  , nodeServer = require('./chunks/node-server');
 
 reloader.init();
 
@@ -33,11 +34,14 @@ gulp.task('stylus', ['cleanTmp'], styles.stylus.serve);
 gulp.task('clientjs', ['gulp'], js.client.serve);
 gulp.task('serverjs', ['gulp'], js.server.serve);
 gulp.task('startNode', ['gulp', 'cleanTmp', 'stylus', 'clientjs', 'serverjs'], nodeServer.start);
+gulp.task('openProject', ['startNode'], open.project);
 
 
 /** Gulp tasks
 ------------------------------------------------------------------------------*/
-gulp.task('default', ['stylus', 'clientjs', 'serverjs', 'startNode', 'watch']);
+gulp.task('default', ['serve']);
+gulp.task('go', ['serve', 'openProject']);
+gulp.task('serve', ['stylus', 'clientjs', 'serverjs', 'startNode', 'watch']);
 
 gulp.task('watch', function () {
 
