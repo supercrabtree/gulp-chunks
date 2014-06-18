@@ -39,6 +39,7 @@ function views() {
 /** Exports
 ------------------------------------------------------------------------------*/
 module.exports = {
+  bowerComponents: bowerComponents,
   heroku: heroku,
   images: images,
   styles: styles,
