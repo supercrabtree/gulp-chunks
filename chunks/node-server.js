@@ -1,18 +1,13 @@
 'use strict';
 
+/* global HTTP_HOST: false */
+/* global HTTP_PORT: false */
+/* global TEST_PATH: false */
+
 var nodemon = require('nodemon')
   , http = require('http')
-  , gutil = require('gulp-util');
-
-var reload = require('./reloader').reload;
-
-
-/** Constants
-------------------------------------------------------------------------------*/
-var HTTP_HOST = 'localhost';
-var HTTP_PORT = process.env.PORT = 9000;
-var TEST_PATH = '/api/feed';
-var LIVERELOAD_PORT = 35729;
+  , gutil = require('gulp-util')
+  , reloader = require('./reloader');
 
 
 /** Start server
@@ -40,7 +35,7 @@ function onLog(log) {
 }
 
 function onRestart(files) {
-  waitForNode(reload, [{path: files[0]}]);
+  waitForNode(reloader.reload, [{path: files[0]}]);
 }
 
 function onStart() {

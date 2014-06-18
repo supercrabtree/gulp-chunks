@@ -1,12 +1,14 @@
 'use strict';
 
+/* global LIVERELOAD_PORT: false */
+
 var gutil = require('gulp-util')
   , quietTinyLiveReload = require('tiny-lr-quiet');
 
 var lr = quietTinyLiveReload();
 
 function init() {
-  lr.listen(35729);
+  lr.listen(LIVERELOAD_PORT);
 }
 
 function reload(file) {

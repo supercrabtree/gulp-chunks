@@ -6,6 +6,13 @@ var gulp = require('gulp')
   , gutil = require('gulp-util');
 
 
+/** Define globals
+------------------------------------------------------------------------------*/
+GLOBAL.HTTP_HOST = 'localhost';
+GLOBAL.HTTP_PORT = process.env.PORT = 9000;
+GLOBAL.TEST_PATH = '/api/feed';
+GLOBAL.LIVERELOAD_PORT = 35729;
+
 
 /** Chunk imports
 ------------------------------------------------------------------------------*/
@@ -32,7 +39,7 @@ gulp.task('startNode', ['gulp', 'cleanTmp', 'stylus', 'clientjs', 'serverjs'], n
 ------------------------------------------------------------------------------*/
 gulp.task('default', ['stylus', 'clientjs', 'serverjs', 'startNode', 'watch']);
 
-gulp.task('watch', ['stylus', 'serverjs', 'clientjs'], function () {
+gulp.task('watch', function () {
 
   gulp.watch([
     'app/views/**/*.html',

@@ -37,7 +37,7 @@ function gulpBuild() {
 function gulpChanged() {
   gutil.beep();
   console.log(gutil.colors.red('\n------------------------\nRestart the Gulp process\n------------------------'));
-  process.exit(1);
+  process.exit(0);
 }
 
 
